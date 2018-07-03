@@ -133,7 +133,7 @@ var Zombie = function(x, y, s) {
   };
 
   _.r = function(p) {
-    Zombie.d(p.x, p.y, _.d, _.tp, _.anim, _.sol);
+    Zombie.d(p.x, p.y, _.d, !!_.tp, _.anim, {sol:_.sol});
   }
   _.bite = function() {
     _.bc = rndr(MIN_BD, MIN_BD + 200);
@@ -146,10 +146,10 @@ var Zombie = function(x, y, s) {
   };
 };
 
-Zombie.d = function(x, y, d, tp, an, sol) {
+Zombie.d = function(x, y, d, stopped, an, opts) {
   var cc, wc, ac, hc, bc; // Chest, waist, arms, head, face and body colors
   hc = '#84ae8d';
-  if (sol) {
+  if (opts.sol) {
     bc = '#607d8b';
     cc = '#727254';
     wc = '#203622';
@@ -171,7 +171,7 @@ Zombie.d = function(x, y, d, tp, an, sol) {
   $.x.fr(x + 16, y + 50, 34, 5);
   // Feet
   // If the zombie is stopped
-  if (!tp) {
+  if (!stopped) {
     $.x.fr(x + 16, y + 55, 14, 8);
     $.x.fr(x + 36, y + 55, 14, 8);
   } else if (an){

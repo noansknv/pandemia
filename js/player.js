@@ -185,102 +185,9 @@ var Player = function(x, y) {
   };
 
   _.r = function(p) {
-    // Render vaccine first if the player is heading up to cover the box
-    // with the head of the char
-    if (_.d === DIR.UP) {
-      if (_.vaccine) {
-        Vaccine.d(p.x + 16, p.y - 6);
-      } else {
-        // Hands
-        $.x.fs(HC);
-        $.x.fr(p.x + 9, p.y + 44, 7, 5);
-        $.x.fr(p.x + 50, p.y + 44, 7, 5);
-      }
-    }
-    // Head
-    $.x.fs('#ffca85');
-    $.x.fr(p.x + 2, p.y, 62, 38);
-    // Chest
-    $.x.fs('#727254');
-    $.x.fr(p.x + 16, p.y + 38, 34, 13);
-    // Waist
-    $.x.fs('#203622');
-    $.x.fr(p.x + 16, p.y + 50, 34, 5);
-    // Feet
-    // If the player is stopped
-    if (!_.dx && !_.dy) {
-      $.x.fr(p.x + 16, p.y + 55, 14, 8);
-      $.x.fr(p.x + 36, p.y + 55, 14, 8);
-    } else if (_.anim.g()) {
-      $.x.fr(p.x + 16, p.y + 55, 14, 8);
-    } else if (!_.anim.g()) {
-      $.x.fr(p.x + 36, p.y + 55, 14, 8);
-    }
-
-    if (_.d === DIR.UP || _.d === DIR.DOWN) {
-      // Arms
-      $.x.fs(AC);
-      $.x.fr(p.x + 9, p.y + 39, 7, 5);
-      $.x.fr(p.x + 50, p.y + 39, 7, 5);
-    }
-    // Head band
-    $.x.fs(RD);
-    $.x.fr(p.x + 2, p.y + 5, 62, 4);
-    if (_.d === DIR.UP) {
-      // Back of head band
-      $.x.ss(RD);
-      $.x.lw(3);
-      $.x.bp();
-      $.x.mv(p.x + 20, p.y + 20);
-      $.x.lt(p.x + 32, p.y + 8);
-      $.x.lt(p.x + 42, p.y + 20);
-      $.x.k();
-    } else if (_.d === DIR.DOWN) {
-      // Hands
-      $.x.fs(HC);
-      $.x.fr(p.x + 9, p.y + 44, 7, 5);
-      $.x.fr(p.x + 50, p.y + 44, 7, 5);
-      // Face
-      $.x.fs(FC);
-      $.x.fr(p.x + 15, p.y + 19, 6, 6);
-      $.x.fr(p.x + 45, p.y + 19, 6, 6);
-      $.x.fr(p.x + 27, p.y + 31, 12, 2);
-      if (_.vaccine) Vaccine.d(p.x + 16, p.y + 16);
-    } else if (_.d === DIR.LEFT) {
-      // Arms
-      $.x.fs(AC);
-      $.x.fr(p.x + 11, p.y + 40, 16, 7);
-      // Hands
-      $.x.fs(HC);
-      $.x.fr(p.x + 5, p.y + 40, 6, 7);
-      if (_.vaccine) Vaccine.d(p.x - 30, p.y + 16);
-      // Face
-      $.x.fs(FC);
-      $.x.fr(p.x + 10, p.y + 19, 6, 6);
-      $.x.fr(p.x + 4, p.y + 31, 4, 2);
-    } else if (_.d === DIR.RIGHT) {
-      // Arms
-      $.x.fs(AC);
-      $.x.fr(p.x + 39, p.y + 40, 16, 7);
-      // Hands
-      $.x.fs(HC);
-      $.x.fr(p.x + 55, p.y + 40, 6, 7);
-      if (_.vaccine) Vaccine.d(p.x + 62, p.y + 16);
-      // Face
-      $.x.fs(FC);
-      $.x.fr(p.x + 50, p.y + 19, 6, 6);
-      $.x.fr(p.x + 58, p.y + 31, 4, 2);
-    }
-
-    // debug
-    //$.x.lw(1);
-    //var c = _.offc(p),
-    //    mag = 100
-    //$.x.ss(RD);
-    //$.x.bp();
-    //$.x.mv(c.x, c.y);
-    //$.x.lt(c.x + (mag * cos(_.an)), c.y + (mag * sin(_.an)));
-    //$.x.k();
+    var stopped = !_.dx && !_.dy;
+    Player.d(p.x, p.y, _.d, stopped, _.anim, {vaccine: _.vaccine});
+    // Zombie.d(p.x, p.y, _.d, !moving, _.anim, {vaccine: _.vaccine, sol: true});
   }
 
   _.shoot = function() {
@@ -366,3 +273,103 @@ var Player = function(x, y) {
     _.shooting = 0;
   });
 };
+
+Player.d = function(x, y, d, stopped, an, opts) {
+  // Render vaccine first if the player is heading up to cover the box
+  // with the head of the char
+  if (d === DIR.UP) {
+    if (opts.vaccine) {
+      Vaccine.d(x + 16, y - 6);
+    } else {
+      // Hands
+      $.x.fs(HC);
+      $.x.fr(x + 9, y + 44, 7, 5);
+      $.x.fr(x + 50, y + 44, 7, 5);
+    }
+  }
+  // Head
+  $.x.fs('#ffca85');
+  $.x.fr(x + 2, y, 62, 38);
+  // Chest
+  $.x.fs('#727254');
+  $.x.fr(x + 16, y + 38, 34, 13);
+  // Waist
+  $.x.fs('#203622');
+  $.x.fr(x + 16, y + 50, 34, 5);
+  // Feet
+  // If the player is stopped
+  if (stopped) {
+    $.x.fr(x + 16, y + 55, 14, 8);
+    $.x.fr(x + 36, y + 55, 14, 8);
+  } else if (an.g()) {
+    $.x.fr(x + 16, y + 55, 14, 8);
+  } else if (!an.g()) {
+    $.x.fr(x + 36, y + 55, 14, 8);
+  }
+
+  if (d === DIR.UP || d === DIR.DOWN) {
+    // Arms
+    $.x.fs(AC);
+    $.x.fr(x + 9, y + 39, 7, 5);
+    $.x.fr(x + 50, y + 39, 7, 5);
+  }
+  // Head band
+  $.x.fs(RD);
+  $.x.fr(x + 2, y + 5, 62, 4);
+  if (d === DIR.UP) {
+    // Back of head band
+    $.x.ss(RD);
+    $.x.lw(3);
+    $.x.bp();
+    $.x.mv(x + 20, y + 20);
+    $.x.lt(x + 32, y + 8);
+    $.x.lt(x + 42, y + 20);
+    $.x.k();
+  } else if (d === DIR.DOWN) {
+    // Hands
+    $.x.fs(HC);
+    $.x.fr(x + 9, y + 44, 7, 5);
+    $.x.fr(x + 50, y + 44, 7, 5);
+    // Face
+    $.x.fs(FC);
+    $.x.fr(x + 15, y + 19, 6, 6);
+    $.x.fr(x + 45, y + 19, 6, 6);
+    $.x.fr(x + 27, y + 31, 12, 2);
+    if (opts.vaccine) Vaccine.d(x + 16, y + 16);
+  } else if (d === DIR.LEFT) {
+    // Arms
+    $.x.fs(AC);
+    $.x.fr(x + 11, y + 40, 16, 7);
+    // Hands
+    $.x.fs(HC);
+    $.x.fr(x + 5, y + 40, 6, 7);
+    if (opts.vaccine) Vaccine.d(x - 30, y + 16);
+    // Face
+    $.x.fs(FC);
+    $.x.fr(x + 10, y + 19, 6, 6);
+    $.x.fr(x + 4, y + 31, 4, 2);
+  } else if (d === DIR.RIGHT) {
+    // Arms
+    $.x.fs(AC);
+    $.x.fr(x + 39, y + 40, 16, 7);
+    // Hands
+    $.x.fs(HC);
+    $.x.fr(x + 55, y + 40, 6, 7);
+    if (opts.vaccine) Vaccine.d(x + 62, y + 16);
+    // Face
+    $.x.fs(FC);
+    $.x.fr(x + 50, y + 19, 6, 6);
+    $.x.fr(x + 58, y + 31, 4, 2);
+  }
+
+  // debug
+  //$.x.lw(1);
+  //var c = _.offc(p),
+  //    mag = 100
+  //$.x.ss(RD);
+  //$.x.bp();
+  //$.x.mv(c.x, c.y);
+  //$.x.lt(c.x + (mag * cos(_.an)), c.y + (mag * sin(_.an)));
+  //$.x.k();
+}
+
