@@ -185,9 +185,9 @@ var Player = function(x, y) {
   };
 
   _.r = function(p) {
-    var stopped = !_.dx && !_.dy;
-    Player.d(p.x, p.y, _.d, stopped, _.anim, {vaccine: _.vaccine});
-    // Zombie.d(p.x, p.y, _.d, !moving, _.anim, {vaccine: _.vaccine, sol: true});
+    var moving = !(!_.dx && !_.dy);
+    // Player.d(p.x, p.y, _.d, moving, _.anim, {vaccine: _.vaccine});
+    Zombie.d(p.x, p.y, _.d, moving, _.anim, {vaccine: _.vaccine, sol: true});
   }
 
   _.shoot = function() {
@@ -274,7 +274,7 @@ var Player = function(x, y) {
   });
 };
 
-Player.d = function(x, y, d, stopped, an, opts) {
+Player.d = function(x, y, d, moving, an, opts) {
   // Render vaccine first if the player is heading up to cover the box
   // with the head of the char
   if (d === DIR.UP) {
@@ -298,7 +298,7 @@ Player.d = function(x, y, d, stopped, an, opts) {
   $.x.fr(x + 16, y + 50, 34, 5);
   // Feet
   // If the player is stopped
-  if (stopped) {
+  if (!moving) {
     $.x.fr(x + 16, y + 55, 14, 8);
     $.x.fr(x + 36, y + 55, 14, 8);
   } else if (an.g()) {

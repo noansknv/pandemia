@@ -146,7 +146,7 @@ var Zombie = function(x, y, s) {
   };
 };
 
-Zombie.d = function(x, y, d, stopped, an, opts) {
+Zombie.d = function(x, y, d, moving, an, opts) {
   var cc, wc, ac, hc, bc; // Chest, waist, arms, head, face and body colors
   hc = '#84ae8d';
   if (opts.sol) {
@@ -160,6 +160,15 @@ Zombie.d = function(x, y, d, stopped, an, opts) {
     wc = '#8b938d';
     ac = '#8ecc9b';
   }
+
+  // Render vaccine first if the player is heading up to cover the box
+  // with the head of the char
+  if (d === DIR.UP) {
+    if (opts.vaccine) {
+      Vaccine.d(x + 16, y - 6);
+    }
+  }
+
   // Head
   $.x.fs(bc);
   $.x.fr(x + 2, y, 62, 38);
@@ -171,7 +180,7 @@ Zombie.d = function(x, y, d, stopped, an, opts) {
   $.x.fr(x + 16, y + 50, 34, 5);
   // Feet
   // If the zombie is stopped
-  if (!stopped) {
+  if (!moving) {
     $.x.fr(x + 16, y + 55, 14, 8);
     $.x.fr(x + 36, y + 55, 14, 8);
   } else if (an){
@@ -202,6 +211,7 @@ Zombie.d = function(x, y, d, stopped, an, opts) {
     $.x.fr(x + 45, y + 19, 6, 6);
     $.x.fr(x + 32, y + 26, 2, 9);
     $.x.fr(x + 27, y + 31, 12, 2);
+    if (opts.vaccine) Vaccine.d(x + 16, y + 16);
   } else if (d === DIR.LEFT) {
     // Arms
     $.x.fs(ac);
@@ -209,6 +219,7 @@ Zombie.d = function(x, y, d, stopped, an, opts) {
     // Hands
     $.x.fs(hc);
     $.x.fr(x + 5, y + 40, 6, 7);
+    if (opts.vaccine) Vaccine.d(x - 30, y + 16);
     // Face
     $.x.fs(FC);
     $.x.fr(x + 10, y + 19, 6, 6);
@@ -221,6 +232,7 @@ Zombie.d = function(x, y, d, stopped, an, opts) {
     // Hands
     $.x.fs(hc);
     $.x.fr(x + 55, y + 40, 6, 7);
+    if (opts.vaccine) Vaccine.d(x + 62, y + 16);
     // Face
     $.x.fs(FC);
     $.x.fr(x + 50, y + 19, 6, 6);
