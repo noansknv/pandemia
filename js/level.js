@@ -42,7 +42,7 @@ var Level = function() {
     }
     //_.print();
     $.g.h.add(new StartZ(970, 202));
-    $.player = new Player(640, 320);
+    $.player = new Player(640, 320, {render: Zombie.d});
     $.scientist = new Scientist(320, 320);
     $.g.n.add($.scientist);
     $.g.h.add(new IntroZ(256, 256));

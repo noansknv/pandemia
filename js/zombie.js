@@ -1,4 +1,4 @@
-var Zombie = function(x, y, s) {
+var Zombie = function(x, y, opts) {
   var _ = this;
   _.mindist = 500; // min distance to start chasing the player
   _.path = []; // points of path
@@ -12,9 +12,10 @@ var Zombie = function(x, y, s) {
   _.gc = rndr(0, 4000); // growl counter
   _.d = 'd'; // direction
   _.anim = new Animator([0, 1]);
-  _.sol = s; // If sol = true, means that this zombie was a soldier before and should have more health
-  _.health = (s) ? 50 : rndr(3, 5);
+  _.sol = opts && opts.soldier; // If sol = true, means that this zombie was a soldier before and should have more health
+  _.health = (opts.solder) ? 50 : rndr(3, 5);
   _.or = new Point(x, y); // Orig coord used to respawn dead soldiers
+  _.render = opts.render;
 
   _.inherits(Sprite);
   _.inherits(AStar);
@@ -133,7 +134,7 @@ var Zombie = function(x, y, s) {
   };
 
   _.r = function(p) {
-    Zombie.d(p.x, p.y, _.d, !!_.tp, _.anim, {sol:_.sol});
+    _.render(p.x, p.y, _.d, !!_.tp, _.anim, {sol:_.sol});
   }
   _.bite = function() {
     _.bc = rndr(MIN_BD, MIN_BD + 200);

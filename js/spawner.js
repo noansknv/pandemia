@@ -17,7 +17,7 @@ var Spawner = function(room) {
         pn = d <= _.ad || $.o.rect($.player, _.ro); // Is the player near the spawner?
 
     if (!_.c && !pn) {
-      z = new Zombie(x, y);
+      z = new Zombie(x, y, {render: Player.d});
       _.z.push(z)
       $.g.z.add(z);
       if (_.z.length >= 20) _.c = 8000;

@@ -1,4 +1,4 @@
-var Player = function(x, y) {
+var Player = function(x, y, opts) {
   var _ = this;
   _.mxs = 0; // Max speed
   _.d = DIR.LEFT; // Direction
@@ -20,6 +20,7 @@ var Player = function(x, y) {
   _.aim = new Point(0, 0);
   _.wpn = WPN.MG;
   _.anim = new Animator([0, 1]);
+  _.render = opts.render;
 
   //var x = room.x + (room.w / 2) - 32,
   //    y = room.y + (room.h / 2) - 32;
@@ -186,8 +187,7 @@ var Player = function(x, y) {
 
   _.r = function(p) {
     var moving = !(!_.dx && !_.dy);
-    // Player.d(p.x, p.y, _.d, moving, _.anim, {vaccine: _.vaccine});
-    Zombie.d(p.x, p.y, _.d, moving, _.anim, {vaccine: _.vaccine, sol: true});
+    _.render(p.x, p.y, _.d, moving, _.anim, {vaccine: _.vaccine, sol: true});
   }
 
   _.shoot = function() {

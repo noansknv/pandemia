@@ -120,7 +120,7 @@ var GameScene = function() {
       _.end = 1;
       $.sn.p('go');
       // Add zombie soldier
-      $.lvl.ds.push(new Zombie($.player.x, $.player.y, 1));
+      $.lvl.ds.push(new Zombie($.player.x, $.player.y, {soldier: true, render: Player.d}));
     }
   }
 
