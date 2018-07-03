@@ -37,7 +37,8 @@ var MenuScene = function() {
     $.x.fs('#f80');
     $.x.fr(50, 0, $.vw - 100, $.vh);
 
-    $.x.ct('PANDEMIA', 125, 150, WH, FN);
+    $.x.ct('PANDEMIA 2', 125, 150, WH, FN);
+    $.x.ct('Joke\'s on us!', 50, 200, WH, FN);
     if (_.anim.g()) {
       $.x.ct('Press ENTER to start', 35, 490, WH, FN);
     }

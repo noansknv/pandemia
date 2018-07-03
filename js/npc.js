@@ -6,12 +6,12 @@ var Scientist = function(x, y) {
   // Dialog array
   _.fda = [
     [
-      'Soldier, come here. I need your help'
+      'Soldier, come here. I need your...'
     ],[
       'the safe zone. So, pick it up...',
       'human race delivering the vaccine to',
       'are all infected. But we can save the',
-      'The zombies overrun the place and we'
+      '... you smell funny. Anyways, we'
     ], [
       'the vaccine before you lose your humanity.',
       'Now blow up the barricade and deliver'
@@ -20,7 +20,7 @@ var Scientist = function(x, y) {
   _.sda = [
     [
       'take it to the safe zone.',
-      'Go soldier! Retrieve the vaccine and'
+      'Go suspicious soldier! Retrieve the vaccine and'
     ]
   ];
   _.dg = ($.scn.game.tries) ? _.sda : _.fda;

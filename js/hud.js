@@ -22,7 +22,7 @@ var HUD = function() {
     $.x.fr(50, 30, _.bmx, 30);
     $.x.fs(RD);
     $.x.fr(50, 30, _.bw, 30);
-    $.x.ft('HUMANITY', 26, 60, 55, c, s);
+    $.x.ft('PATIENCE', 26, 60, 55, c, s);
 
     // Ammo
     Ammo.d(670, 30);
